@@ -730,29 +730,7 @@ app.post('/postcomment', async(req, res) => {
         const check2 = await imgsd.findOneAndUpdate({ username: posteduser, createdAt: postcreatedat }, { $push: { commentedby: loggedinusn } })
 
 
-        const user = await abc.find({ acceptedbyme: loggedinusn })
-        const us = user.map(u => u.username);
-
-
-        const foundUsers = await imgsd.find({ username: { $in: us } }).sort({ createdAt: -1 }).limit(25);
-
-        const response = foundUsers.map((doc) => {
-            return {
-                imageUrl: doc.imageUrl,
-                username: doc.username,
-                about: doc.about,
-                dp: doc.dp,
-                createdAt: doc.createdAt,
-                likes: doc.likes,
-                comments: doc.comments,
-                commentedby: doc.commentedby,
-
-
-            };
-        });
-
-
-        res.json(response);
+       
 
 
 
