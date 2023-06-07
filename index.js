@@ -729,10 +729,9 @@ app.post('/postcomment', async(req, res) => {
 
         const check2 = await imgsd.findOneAndUpdate({ username: posteduser, createdAt: postcreatedat }, { $push: { commentedby: loggedinusn } })
 
+     const foundUsers = await imgsd.find({ username: { $in: us } }).sort({ createdAt: -1 }).limit(25);
 
-        const resp = await imgsd.find({}).sort({ createdAt: -1 })
-
-        const response = resp.map((doc) => {
+        const response1 = foundUsers.map((doc) => {
             return {
                 imageUrl: doc.imageUrl,
                 username: doc.username,
@@ -740,14 +739,15 @@ app.post('/postcomment', async(req, res) => {
                 dp: doc.dp,
                 createdAt: doc.createdAt,
                 likes: doc.likes,
-                comments: doc.comments.reverse(),
-                commentedby: doc.commentedby.reverse(),
+                comments: doc.comments,
+                commentedby: doc.commentedby,
 
 
             };
         });
 
-        res.json(response)
+
+        res.json(response1);
 
 
 
