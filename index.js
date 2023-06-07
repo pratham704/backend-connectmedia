@@ -730,8 +730,24 @@ app.post('/postcomment', async(req, res) => {
         const check2 = await imgsd.findOneAndUpdate({ username: posteduser, createdAt: postcreatedat }, { $push: { commentedby: loggedinusn } })
 
 
-       
+        const resp = await imgsd.find({}).sort({ createdAt: -1 })
 
+        const response = resp.map((doc) => {
+            return {
+                imageUrl: doc.imageUrl,
+                username: doc.username,
+                about: doc.about,
+                dp: doc.dp,
+                createdAt: doc.createdAt,
+                likes: doc.likes,
+                comments: doc.comments.reverse(),
+                commentedby: doc.commentedby.reverse(),
+
+
+            };
+        });
+
+        res.json(response)
 
 
 
